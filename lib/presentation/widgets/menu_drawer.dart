@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/user.dart';
+import 'package:provider/provider.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>().user;
+
     return Drawer(
       child: Column(
         children: [
@@ -12,9 +16,7 @@ class MenuDrawer extends StatelessWidget {
             width: double.infinity,
             child: DrawerHeader(
               margin: EdgeInsets.zero,
-              decoration: const BoxDecoration(
-                color: Colors.blue,
-              ),
+              decoration: const BoxDecoration(color: Colors.blue),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,23 +24,31 @@ class MenuDrawer extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Icon(Icons.account_circle,
-                          size: 50, color: Colors.white),
+                      const Icon(
+                        Icons.account_circle,
+                        size: 50,
+                        color: Colors.white,
+                      ),
                       IconButton(
-                        icon: Icon(Icons.edit,
-                            size: 20, color: Colors.grey.shade200),
+                        icon: Icon(
+                          Icons.edit,
+                          size: 20,
+                          color: Colors.grey.shade200,
+                        ),
                         onPressed: () {
                           Navigator.pop(context);
                           Navigator.pushReplacementNamed(
-                              context, '/edit-profile');
+                            context,
+                            '/edit-profile',
+                          );
                         },
                       ),
                     ],
                   ),
                   const SizedBox(height: 10),
-                  const Text(
-                    'Username',
-                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  Text(
+                    user != null ? user.name : 'Username',
+                    style: const TextStyle(color: Colors.white, fontSize: 24),
                   ),
                 ],
               ),
@@ -79,7 +89,9 @@ class MenuDrawer extends StatelessWidget {
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.pushReplacementNamed(
-                          context, '/provider-fake-api');
+                        context,
+                        '/provider-fake-api',
+                      );
                     },
                   ),
                 ],
